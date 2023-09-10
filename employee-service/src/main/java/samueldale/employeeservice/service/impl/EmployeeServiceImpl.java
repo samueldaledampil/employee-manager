@@ -13,6 +13,7 @@ import samueldale.employeeservice.exception.EmailAlreadyExistException;
 import samueldale.employeeservice.exception.ResourceNotFoundException;
 import samueldale.employeeservice.mapper.AutoEmployeeMapper;
 import samueldale.employeeservice.repository.EmployeeRepository;
+import samueldale.employeeservice.service.APIClient;
 import samueldale.employeeservice.service.EmployeeService;
 
 import java.util.List;
@@ -26,7 +27,8 @@ public class EmployeeServiceImpl implements EmployeeService {
     private EmployeeRepository repo;
 
 //    private RestTemplate restTemplate;
-    private WebClient webClient;
+//    private WebClient webClient;
+    private APIClient apiClient;
     @Override
     public EmployeeDto saveEmployee(EmployeeDto employeeDto) {
 
@@ -66,11 +68,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 //
 //        DepartmentDto departmentDto = responseEntity.getBody();
 
-        DepartmentDto departmentDto = webClient.get()
-                .uri("http://localhost:8080/api/departments/" + employee.getDepartmentCode())
-                .retrieve()
-                .bodyToMono(DepartmentDto.class)
-                .block();
+//        DepartmentDto departmentDto = webClient.get()
+//                .uri("http://localhost:8080/api/departments/" + employee.getDepartmentCode())
+//                .retrieve()
+//                .bodyToMono(DepartmentDto.class)
+//                .block();
+
+        DepartmentDto departmentDto = apiClient.getDepartment(employee.getDepartmentCode());
 
         APIResponseDto apiResponseDto = new APIResponseDto();
         apiResponseDto.setEmployee(AutoEmployeeMapper.MAPPER.mapToEmployeeDto(employee));
